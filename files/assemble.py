@@ -65,11 +65,11 @@ options:
     default: null
   remote_src:
     description:
-      - If False, it will search for src at originating/master machine, if True it will
-        go to the remote/target machine for the src. Default is True.
-    choices: [ "True", "False" ]
+      - If C(no), it will search for src at originating/master machine, if C(yes) it will
+        go to the remote/target machine for the src. Default is C(yes).
+    choices: [ "yes", "no" ]
     required: false
-    default: "True"
+    default: "no"
     version_added: "1.4"
   regexp:
     description:
@@ -82,6 +82,7 @@ options:
   ignore_hidden:
     description:
       - A boolean that controls if files that start with a '.' will be included or not.
+    choices: [ "yes", "no" ]
     required: false
     default: false
     version_added: "2.0"
