@@ -38,13 +38,14 @@ options:
       - Indicates the desired package state. C(latest) ensures that the latest version is installed. C(build-dep) ensures the package build dependencies are installed.
     required: false
     default: present
-    choices: [ "latest", "absent", "present", "build-dep" ]
+    choices: [ "latest", "absent", "removed", "present", "installed", "build-dep" ]
   update_cache:
     description:
       - Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step.
     required: false
     default: no
     choices: [ "yes", "no" ]
+    aliases: [ 'update-cache' ]
   cache_valid_time:
     description:
       - If C(update_cache) is specified and the last run is less or equal than I(cache_valid_time) seconds ago, the C(update_cache) gets skipped.
@@ -61,12 +62,14 @@ options:
       - Corresponds to the C(-t) option for I(apt) and sets pin priorities
     required: false
     default: null
+    aliases: [ 'default-release' ]
   install_recommends:
     description:
       - Corresponds to the C(--no-install-recommends) option for I(apt). C(yes) installs recommended packages.  C(no) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.
     required: false
     default: null
     choices: [ "yes", "no" ]
+    aliases: [ 'install-recommends' ]
   force:
     description:
       - If C(yes), force installs/removes.
@@ -152,12 +155,12 @@ cache_update_time:
     sample: 1425828348000
 stdout:
     description: output from apt
-    returned: success, when needed
+    returned: success and failure, when needed
     type: string
     sample: "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following extra packages will be installed:\n  apache2-bin ..."
 stderr:
     description: error output from apt
-    returned: success, when needed
+    returned: success and failure, when needed
     type: string
     sample: "AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to ..."
 '''
